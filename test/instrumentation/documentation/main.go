@@ -58,10 +58,11 @@ components using an HTTP scrape, and fetch the current metrics data in Prometheu
 
 ### List of Stable Kubernetes Metrics
 
-Stable metrics observe strict API contracts and no labels can be added or removed from stable metrics during their lifcetime.
+Stable metrics observe strict API contracts and no labels can be added or removed from stable metrics during their lifetime.
 
-{{range $index, $metric := .StableMetrics}}
 <div class="metrics">
+{{- range $index, $metric := .StableMetrics -}}
+	<div class="metrics-wrapper">
 	<div class="metric_name">{{with $metric}}{{.BuildFQName}}{{end}}</div>
 	<div>{{$metric.Help}}</div>
 	<ul>
@@ -71,14 +72,16 @@ Stable metrics observe strict API contracts and no labels can be added or remove
 	{{if not $metric.ConstLabels }}<div class="metric_labels_constant"></div>{{else }}<li class="metric_labels_constant"><span class="metric-data">Const Labels:</span>{{range $key, $value := $metric.ConstLabels}}<span class="metric_label">{{$key}}:{{$value}}</span>{{end}}</li>{{end}}
 	{{if not $metric.DeprecatedVersion }}<div class="metric_deprecated_version"></div>{{else }}<li class="metric_deprecated_version"><span class="metric-data">Deprecated Versions:</span>{{$metric.DeprecatedVersion}}</li>{{end}}
 	</ul>
+	</div>
 </div>{{end}}
 
 ### List of Beta Kubernetes Metrics
 
 Beta metrics observe a looser API contract than its stable counterparts. No labels can be removed from beta metrics during their lifetime, however, labels can be added while the metric is in the beta stage. This offers the assurance that beta metrics will honor existing dashboards and alerts, while allowing for amendments in the future. 
 
-{{range $index, $metric := .BetaMetrics}}
 <div class="metrics">
+{{- range $index, $metric := .BetaMetrics -}}
+	<div class="metrics-wrapper">
 	<div class="metric_name">{{with $metric}}{{.BuildFQName}}{{end}}</div>
 	<div>{{$metric.Help}}</div>
 	<ul>
@@ -88,14 +91,16 @@ Beta metrics observe a looser API contract than its stable counterparts. No labe
 	{{if not $metric.ConstLabels }}<div class="metric_labels_constant"></div>{{else }}<li class="metric_labels_constant"><span class="metric-data">Const Labels:</span>{{range $key, $value := $metric.ConstLabels}}<span class="metric_label">{{$key}}:{{$value}}</span>{{end}}</li>{{end}}
 	{{if not $metric.DeprecatedVersion }}<div class="metric_deprecated_version"></div>{{else }}<li class="metric_deprecated_version"><span class="metric-data">Deprecated Versions:</span>{{$metric.DeprecatedVersion}}</li>{{end}}
 	</ul>
+	</div>
 </div>{{end}}
 
 ### List of Alpha Kubernetes Metrics
 
 Alpha metrics do not have any API guarantees. These metrics must be used at your own risk, subsequent versions of Kubernetes may remove these metrics altogether, or mutate the API in such a way that breaks existing dashboards and alerts. 
 
-{{range $index, $metric := .AlphaMetrics}}
 <div class="metrics">
+{{- range $index, $metric := .AlphaMetrics -}}
+	<div class="metrics-wrapper">
 	<div class="metric_name">{{with $metric}}{{.BuildFQName}}{{end}}</div>
 	<div>{{$metric.Help}}</div>
 	<ul>
@@ -105,6 +110,7 @@ Alpha metrics do not have any API guarantees. These metrics must be used at your
 	{{if not $metric.ConstLabels }}<div class="metric_labels_constant"></div>{{else }}<li class="metric_labels_constant"><span class="metric-data">Const Labels:</span>{{range $key, $value := $metric.ConstLabels}}<span class="metric_label">{{$key}}:{{$value}}</span>{{end}}</li>{{end}}
 	{{if not $metric.DeprecatedVersion }}<div class="metric_deprecated_version"></div>{{else }}<li class="metric_deprecated_version"><span class="metric-data">Deprecated Versions:</span>{{$metric.DeprecatedVersion}}</li>{{end}}
 	</ul>
+	</div>
 </div>{{end}}
 `
 )
